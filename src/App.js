@@ -9,24 +9,42 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [tours, setTours] = useState();
 
+    const removeTour = (id, e) => {
+        e.preventDefault();
+        const newTours = tours.filter((tour) => tour.id !== id);
+        setTours(newTours);
+    };
+
     const fetchTours = async () => {
         setLoading(true);
         try {
-          const response = await axios.get(url);
-          setTours(response.data);
-          setLoading(false);
+            const response = await axios.get(url);
+            setTours(response.data);
+            setLoading(false);
         } catch (error) {
-          setLoading(false);
-          console.log(error);
+            setLoading(false);
+            console.log(error);
         }
-        
     };
 
     useEffect(() => {
         fetchTours();
     }, []);
 
-    return <main>{loading ? <Loading /> : <Tours tours={tours} />}</main>;
+    return (
+        <main>
+            {loading ? (
+                <Loading />
+            ) : tours.length ? (
+                <Tours
+                    tours={tours}
+                    removeTour={removeTour}
+                />
+            ) : (
+                <div className="title"><h2>No tours Left</h2><button className="btn" onClick={fetchTours}>Refresh</button></div>
+            )}
+        </main>
+    );
 }
 
 export default App;
