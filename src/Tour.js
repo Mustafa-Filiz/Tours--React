@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Tour = ({ tour }) => {
+const Tour = ({ tour, removeTour }) => {
     const [lessInfo, setLessInfo] = useState(true);
 
     // const handleInfo = () => {
@@ -17,18 +17,10 @@ const Tour = ({ tour }) => {
                 </div>
                 <p>
                     {lessInfo ? `${tour.info.slice(0, 200)}...` : tour.info}
-                    {lessInfo ? (
-                        <button onClick={() => setLessInfo(!lessInfo)}>
-                            Read More
-                        </button>
-                    ) : (
-                        <button onClick={() => setLessInfo(!lessInfo)}>
-                            Show Less
-                        </button>
-                    )}{' '}
+                    <button onClick={() => setLessInfo(!lessInfo)}>{lessInfo ? "Show Less" : "Read More"}</button>
                 </p>
 
-                <button className="delete-btn">not interested</button>
+                <button className="delete-btn" onClick={(e) => removeTour(tour.id, e)}>not interested</button>
             </footer>
         </article>
     );
