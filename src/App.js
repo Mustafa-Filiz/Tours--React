@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
-import data from './data';
-import List from './List';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import Loading from './Loading';
+import Tours from './Tours';
+// ATTENTION!!!!!!!!!!
+// I SWITCHED TO PERMANENT DOMAIN
+const url = 'https://course-api.com/react-tours-project';
 function App() {
-    const [showItem, setShowItem] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [tours, setTours] = useState();
 
-    return (
-        <main>
-            <section className="container">
-                <h3>{showItem ? data.length : '0'} birthdays today</h3>
-                {showItem && data.map((item) => <List person={item} />)}
-                <button onClick={() => setShowItem(!showItem)}>
-                    {showItem ? 'Clear All' : 'View All'}
-                </button>
-            </section>
-        </main>
-    );
+    const fetchTours = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(url);
+          setTours(response.data);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+        }
+        
+    };
+
+    useEffect(() => {
+        fetchTours();
+    }, []);
+
+    return <main>{loading ? <Loading /> : <Tours tours={tours} />}</main>;
 }
 
 export default App;
