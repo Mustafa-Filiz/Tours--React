@@ -17,7 +17,7 @@ const Tour = ({ tour, removeTour }) => {
                 </div>
                 <p>
                     {lessInfo ? `${tour.info.slice(0, 200)}...` : tour.info}
-                    <button onClick={() => setLessInfo(!lessInfo)}>{lessInfo ? "Show Less" : "Read More"}</button>
+                    <button onClick={() => setLessInfo(!lessInfo)}>{lessInfo ? "Read More" : "Show Less"}</button>
                 </p>
 
                 <button className="delete-btn" onClick={(e) => removeTour(tour.id, e)}>not interested</button>
